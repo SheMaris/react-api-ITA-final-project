@@ -1,0 +1,104 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+div.carousel-item:nth-child(2), div.carousel-item:nth-child(3), div.carousel-item:nth-child(4){
+  background-color: rgba(0,0,0,0.5);
+}
+
+span.badge {
+  margin-right: 5px;
+}
+
+div.carousel-caption {
+  z-index: 0;
+  bottom: 0px;
+  right: 5%;
+  left: 5%;
+}
+
+a.carousel-control-next { 
+  width: 100%;
+  height: 100%;
+}
+
+a.carousel-control-next span, a.carousel-control-prev{
+  display: none;
+}
+
+.carousel {
+  height: 100%;
+}
+
+.carousel-inner, .carousel-item {
+  height: 100%;
+}
+.carousel-item img {
+  position: absolute;   
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+div.row{
+  justify-content: space-around;
+}
+
+body{
+  background-image: linear-gradient(90deg, white, currentColor);
+}
+
+.posterdiv{
+  opacity: 0;
+position:relative;
+animation:mymove 1s ease-out forwards;
+
+/* Safari and Chrome */
+-webkit-animation:mymove 1s ease-out forwards;
+}
+
+@keyframes mymove
+{ from {top:250px; opacity: 0;}
+to {top:0px; opacity: 1}
+}
+
+@-webkit-keyframes mymove /* Safari and Chrome */
+{
+from {top:200px; opacity: 0;}
+to {top:0px; opacity: 1;}
+}
