@@ -1,6 +1,9 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
+const LOCAL_DOMAINS = ["localhost", "127.0.0.1", ""];
 
+if (LOCAL_DOMAINS.includes(window.location.hostname))
+  alert("It's a local server!");
 export async function getGames(page) {
     const proxyurl_cors = "https://whispering-falls-66092.herokuapp.com/";
     
@@ -10,7 +13,10 @@ export async function getGames(page) {
     }
     const scrapedpage = "https://skidrowreloaded.com/"+page_link;
     
-    const pageContent = await axios.get(proxyurl_cors + scrapedpage);
+    const pageContent = await axios.get(
+      (LOCAL_DOMAINS.includes(window.location.hostname) ? proxyurl_cors : "") 
+      + scrapedpage
+      )
     
     const $ = cheerio.load(pageContent.data);
     const allGames = [];
@@ -35,7 +41,7 @@ export async function getGames(page) {
         //prepare api call for info of each game
         let item_game_name = title.toLowerCase().replace('early access','').split('-')[0];
         requestList.push(axios.get(req+item_game_name));
-
+        return allGames;
     }).get();
 
     await axios
@@ -58,7 +64,6 @@ export async function getGames(page) {
           item.image
           ))
           allGames[index].info = {
-            id: index,
             game_name: game_data.name,
             game_genres: game_genres,
             //game_tags: game_tags,
