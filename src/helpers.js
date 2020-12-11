@@ -1,9 +1,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const LOCAL_DOMAINS = ["localhost", "127.0.0.1", ""];
 
-if (LOCAL_DOMAINS.includes(window.location.hostname))
-  alert("It's a local server!");
 export async function getGames(page) {
     const proxyurl_cors = "https://whispering-falls-66092.herokuapp.com/";
     
@@ -13,10 +10,7 @@ export async function getGames(page) {
     }
     const scrapedpage = "https://skidrowreloaded.com/"+page_link;
     
-    const pageContent = await axios.get(
-      (LOCAL_DOMAINS.includes(window.location.hostname) ? proxyurl_cors : "") 
-      + scrapedpage
-      )
+    const pageContent = await axios.get(proxyurl_cors + scrapedpage);
     
     const $ = cheerio.load(pageContent.data);
     const allGames = [];
