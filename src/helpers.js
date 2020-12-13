@@ -68,9 +68,8 @@ export async function getGames(page) {
     )
     .catch(errors => {
         // react on errors.
-        console.error(errors);
+        //console.error(errors);
     });
 
-    console.log(allGames);
   return allGames;
 }

@@ -39,15 +39,23 @@ function App() {
   
       return (
         <Fragment>
-          {data.map((photo, i) => { 
-            let gameInfo = photo.info;
+          {data.map((game, i) => { 
+            let gameInfo = game.info;
+            //let gameTitle = game.title;
             animdelay++
             return <div key={i} className="xl-2 lg-3 md-4 sm-6 xs-12 posterdiv" 
               style={{'marginBottom': '20px', width:"250px", height:"350px",
-              backgroundImage: "url(" + photo.src + ")", backgroundSize: "100%", 
+              backgroundImage: "url(" + game.src + ")", backgroundSize: "100%", 
               backgroundRepeat  : 'no-repeat', backgroundPosition: 'center', 
               animationDelay: '.'+(animdelay===9 ? animdelay=0 : animdelay)+'s'}}
               onClick={() => {setSelectedGame({show: true, data: gameInfo.game_screenshots})}}>
+              {/*
+                gameInfo &&
+                <div style={{position:'absolute', top:'-20px',right: '5%',left: '5%',
+                 paddingBottom:'20px', paddingTop:'20px', textAlign:'center'}}>
+                  <Badge variant="dark" style={{whiteSpace: "normal"}}>{gameTitle}</Badge>
+                </div>
+              */}
               {
                 gameInfo &&
                 <div style={{position:'absolute', bottom:'0px',right: '5%',left: '5%',
@@ -71,7 +79,7 @@ function App() {
           {selectedGame.data.map((e, i) => {
               return <Carousel.Item>
                 <img alt=""
-                  className="d-block fit-image"
+                  className="d-block w-100"
                   src={selectedGame.data[i] ? selectedGame.data[i] : ''}
                 />
               </Carousel.Item>   
