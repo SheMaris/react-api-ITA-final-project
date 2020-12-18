@@ -6,3 +6,4 @@ Index scrollable page with cover games. Every cover has a carousel over it with 
 
 VERSION 2.0 
 One scrollable page with covers of games. Click on a cover shows a carousel over the whole page with the game screenshoots.
+
