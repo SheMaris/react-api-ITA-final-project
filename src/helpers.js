@@ -1,8 +1,10 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
+const SECRET_RAWG_API_URL = "https://api.rawg.io/api/games?key="+process.env.REACT_APP_RAWG_API_KEY;
+
 export async function getGames(page) {
-    const proxyurl_cors = "https://whispering-falls-66092.herokuapp.com/";
+    const proxyurl_cors = process.env.REACT_APP_MY_PROXY_URL_CORS;
     
     let page_link = "";
     if (page>1){
@@ -17,8 +19,9 @@ export async function getGames(page) {
 
     let requestList=[];
     let req =
-    "https://api.rawg.io/api/games?key=06297f268fe14959b425f9315a01218b&page_size=1&search=";
+    SECRET_RAWG_API_URL+"&page_size=1&search=";
 
+    
     $('#main-content .post-excerpt a>img').map((_, el) => {
         el = $(el);
         const title = el.attr('alt');
@@ -38,6 +41,8 @@ export async function getGames(page) {
         return allGames;
     }).get();
 
+    const players_tags = ["Singleplayer", "Multiplayer", "Co-op"];
+
     await axios
     .all(requestList)
     .then(
@@ -48,19 +53,15 @@ export async function getGames(page) {
           let game_genres = game_data.genres.map(item => (
           item.name
           ))
-          /*
-          let game_tags = game_data.tags.map(item => (
-          //(item.name).toLowerCase().includes(players_tags) && item
-          item.name
-          ))
-          */
+          let game_tags = game_data.tags.filter(item => item.language === 'eng' &&
+          players_tags.includes(item.name)).map(item => item.name)
           let game_screenshots = game_data.short_screenshots.map(item => (
           item.image
           ))
           allGames[index].info = {
             game_name: game_data.name,
             game_genres: game_genres,
-            //game_tags: game_tags,
+            game_tags: game_tags,
             game_screenshots: game_screenshots
         }
       })
@@ -68,8 +69,28 @@ export async function getGames(page) {
     )
     .catch(errors => {
         // react on errors.
-        //console.error(errors);
+        console.error(errors);
     });
 
   return allGames;
+}
+
+export async function getMovies() {
+  const proxyurl_cors = process.env.REACT_APP_MY_PROXY_URL_CORS;
+  
+  const scrapedpage = "https://gnula.nu/";
+  
+  const pageContent = await axios.get(proxyurl_cors + scrapedpage);
+  
+  const $ = cheerio.load(pageContent.data);
+
+  const allMovies = [];
+  
+   $('.sidebar2 .capa2 a>img').map((_, el) => {
+      el = $(el);
+      allMovies.push(el.attr('src'))
+      return allMovies;
+  }).get();
+
+return allMovies;
 }
