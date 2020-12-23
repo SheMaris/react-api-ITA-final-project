@@ -78,17 +78,25 @@ export async function getGames(page) {
 export async function getMovies() {
   const proxyurl_cors = process.env.REACT_APP_MY_PROXY_URL_CORS;
   
-  const scrapedpage = "https://gnula.nu/";
+  const scrapedpage = "https://www.gnula.nu/";
   
   const pageContent = await axios.get(proxyurl_cors + scrapedpage);
-  
   const $ = cheerio.load(pageContent.data);
 
   const allMovies = [];
   
    $('.sidebar2 .capa2 a>img').map((_, el) => {
       el = $(el);
-      allMovies.push(el.attr('src'))
+      let movie_poster = el.attr('src').replace('3.gif', '2.gif')
+      let movie_info = el.attr('title');
+      let movie_info_split = movie_info.split(' - ');
+      let movie_title = movie_info_split[0];
+      let movie_genres = movie_info_split.pop();
+      allMovies.push({
+        src: movie_poster,
+        title: movie_title,
+        genres: movie_genres.split(', ')
+      })
       return allMovies;
   }).get();
 

@@ -24,7 +24,7 @@ function GamesNews() {
     const [data, setData] =  useState([]);
     const [selectedGame, setSelectedGame]= useState({show:false,data:['', '', '','','','','','','','']});
     const lastitemRef = useRef();
-    var animdelay=0;
+    var animdelay=-1;
 
     async function fetchMoreListItems() {
       page++;
@@ -62,26 +62,28 @@ function GamesNews() {
           <LastItem className="loading" lastitemRef={lastitemRef} onScreen={fetchMoreListItems} />
           
           <Modal
-          size="lg"
-        show={selectedGame.show}
-        onHide={() => setSelectedGame({show: false, data: selectedGame.data})}
-        aria-labelledby="example-custom-modal-styling-title"
-        centered={true}
-      >
-        <Modal.Body>
-          <Carousel interval={null} indicators={false}>
-          { selectedGame.data &&
-            selectedGame.data.map((e, i) => {
-              return <Carousel.Item key={i}>
-                <img alt=""
-                  className="d-block w-100"
-                  src={selectedGame.data[i] ? selectedGame.data[i] : ''}
-                />
-              </Carousel.Item>   
-            })}
-          </Carousel>
-        </Modal.Body>
-      </Modal>
+            size="lg"
+            show={selectedGame.show}
+            onHide={() => setSelectedGame({show: false, data: selectedGame.data})}
+            aria-labelledby="example-custom-modal-styling-title"
+            centered={true}>
+            <Modal.Body className="text-center">
+            { selectedGame.data && (typeof selectedGame.data[0] !== "undefined") &&
+              <Carousel interval={null} indicators={false}>
+                {selectedGame.data.map((e, i) => {
+                  return <Carousel.Item key={i}>
+                    <img alt=""
+                      className="d-block w-100"
+                      src={selectedGame.data[i] ? selectedGame.data[i] : ''}
+                    />
+                  </Carousel.Item>   
+                })}
+              </Carousel>
+            }
+            { selectedGame.data && (typeof selectedGame.data[0] === "undefined") &&
+              <span>No screenshots found</span>}
+            </Modal.Body>
+          </Modal>
         </Fragment>
       );
   }
@@ -134,6 +136,4 @@ function GameBadges (props) {
   return gamebadges;  
 }
 
-export default () => {
-    return <GamesNews/>;
-  };
+export default GamesNews;
